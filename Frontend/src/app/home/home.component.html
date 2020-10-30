@@ -1,0 +1,75 @@
+<div class="m-5">
+  <div *ngIf="!addInternMode">
+    <h2>Interns list</h2>
+    <div>
+      <div>
+      <button class="btn btn-primary btn-lg mr-2" (click)="filterByNameAsc()">Sort by name ascending</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="filterByNameDesc()">Sort by name descending</button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary btn-lg mr-2" (click)="filterByCollegeYear()">Filter</button>
+      <Select class="form-control" id="CollegeValue" style="width:75px">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </Select>
+    </div>
+      <table class="table table-hover" style="width:50%">
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>College Year</th>
+          <th>Register Date</th>
+        </tr>
+        <tr *ngFor="let intern of internService.list">
+          <td (click)="populateForm(intern)">{{intern.FirstName}}</td>
+          <td (click)="populateForm(intern)">{{intern.LastName}}</td>
+          <td (click)="populateForm(intern)">{{intern.CollegeYear}}</td>
+          <td (click)="populateForm(intern)">{{intern.RegisterDate | date:'mediumDate'}}</td>
+          <td>
+            <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(intern.Id)"></i>
+          </td>
+        </tr>
+      </table>
+      <form style="width:20%" *ngIf="updateBool" #form="ngForm" autocomplete="off" (submit)="updateRecord()">
+
+        <div class="form-group">
+          <input type="text" class="form-control" name='username' required [(ngModel)]="model.FirstName" placeholder="First Name" maxlength="50">
+        </div>
+      
+        <div class="form-group">
+          <input type="text" class="form-control" name='password' required [(ngModel)]="model.LastName" placeholder="Last Name" maxlength="50">
+        </div>
+      
+        <div class="form-group">
+          <input type="number" class="form-control" name='collegeYear' min='1' max='6' required [(ngModel)]="model.CollegeYear" placeholder="College Year" maxlength="1">
+        </div>
+      
+        <div class="form-group">
+          <input type="date" class="form-control" name='registerDate' required [(ngModel)]="model.RegisterDate" placeholder="Registration Date">
+        </div>
+      
+        <div class="form-group text-center">
+          <button class="btn btn-success btn-lg btn-block" type="submit" [disabled]="form.invalid"><i class="fas fa-database"></i> Submit</button>
+          <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+        </div>
+        
+      </form>
+    </div>
+    <div>
+    <button class="btn btn-primary btn-lg mr-2" (click)="addInternToggle()">Register an Intern</button>
+    
+  </div>
+  </div>
+
+  <div *ngIf="addInternMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-addIntern (cancelAddIntern)="cancelAddInternMode($event)"></app-addIntern>
+      </div>
+    </div>
+  </div>
+</div>
